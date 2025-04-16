@@ -4,6 +4,7 @@ import MarkStep1 from './MarkStep1';
 import MarkStep2 from './MarkStep2';
 import MarkStep3 from './MarkStep3';
 import MarkStep4 from './MarkStep4';
+import MarkStep5 from './MarkStep5';
 
 function MarkMultistepForm() {
   const [currentStep, setCurrentStep] = useState(1); // เก็บขั้นตอนปัจจุบัน
@@ -33,7 +34,8 @@ function MarkMultistepForm() {
       {currentStep === 1 && <MarkStep1 formData={formData} onNext={handleNext} />}
       {currentStep === 2 && <MarkStep2 formData={formData} setFormData={setFormData} onNext={handleNext} onPrev={handlePrev} />}
       {currentStep === 3 && <MarkStep3 formData={formData} setFormData={setFormData} onNext={handleNext} onPrev={handlePrev} />}
-      {currentStep === 4 && <MarkStep4 formData={formData} onSubmit={handleSubmit} onPrev={handlePrev} />}
+      {currentStep === 4 && <MarkStep4 formData={formData} setFormData={setFormData} onNext={handleNext} onPrev={handlePrev} />}
+      {currentStep === 5 && <MarkStep5 formData={formData} onSubmit={handleSubmit} onPrev={handlePrev} />}
     </div>
   );
 }
