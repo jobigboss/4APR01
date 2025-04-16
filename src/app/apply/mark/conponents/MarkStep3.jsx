@@ -1,42 +1,41 @@
 "use client";
-import React from "react";
-
-// Sample address data for cascading dropdowns
-const addressData = {
-  "กรุงเทพมหานคร": {
-    districts: {
-      "พระนคร": {
-        subDistricts: {
-          "พระบรมมหาราชวัง": "10200",
-          "วังบูรพาภิรมย์": "10200"
-        }
-      },
-      "ดุสิต": {
-        subDistricts: {
-          "ดุสิต": "10300",
-          "วชิรบรรเทส": "10300"
-        }
-      }
-    }
-  },
-  "ชลบุรี": {
-    districts: {
-      "เมืองชลบุรี": {
-        subDistricts: {
-          "ชลบุรี": "20000",
-          "บางละมุง": "20150"
-        }
-      },
-      "บ้านบึง": {
-        subDistricts: {
-          "บ้านบึง": "20110"
-        }
-      }
-    }
-  }
-};
+import React, { useState, useEffect } from "react";
 
 function MarkStep3({ onNext, onPrev, formData, setFormData }) {
+  const [addressData, setAddressData] = useState({});
+
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const res = await fetch("/api/province");
+        const data = await res.json();
+
+        // สร้างโครงสร้าง nestedData ที่นี่
+        const nested = {};
+
+        data.forEach(({ province, district, sub_district, postcode }) => {
+          if (!nested[province]) {
+            nested[province] = { districts: {} };
+          }
+
+          if (!nested[province].districts[district]) {
+            nested[province].districts[district] = { subDistricts: {} };
+          }
+
+          if (!nested[province].districts[district].subDistricts[sub_district]) {
+            nested[province].districts[district].subDistricts[sub_district] = postcode;
+          }
+        });
+
+        setAddressData(nested);
+      } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการดึงตำแหน่งงาน", error);
+      }
+    };
+
+    fetchProvince();
+  }, []);
+
   // ----- Education Section Handlers -----
   const handleAddEducation = () => {
     const newEdu = { school: "", degree: "", year: "" };
@@ -145,15 +144,20 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
     });
   };
 
-  // Create options for the dropdowns
-  const provinceOptions = Object.keys(addressData);
+  const provinceOptions = Object.keys(addressData).sort((a,b)=>a.localeCompare(b,'th'));
   const districtOptions = formData.regProvice
-    ? Object.keys(addressData[formData.regProvice].districts)
-    : [];
+  ? Object.keys(addressData[formData.regProvice]?.districts || {}).sort((a, b) =>
+      a.localeCompare(b, 'th')
+    )
+  : [];
+
   const subDistrictOptions =
-    formData.regProvice && formData.regDistrict
-      ? Object.keys(addressData[formData.regProvice].districts[formData.regDistrict].subDistricts)
-      : [];
+  formData.regProvice && formData.regDistrict
+    ? Object.keys(
+        addressData[formData.regProvice]?.districts?.[formData.regDistrict]?.subDistricts || {}
+      ).sort((a, b) => a.localeCompare(b, 'th'))
+    : [];
+  
 
   const handleNext = () => {
     onNext(formData);
