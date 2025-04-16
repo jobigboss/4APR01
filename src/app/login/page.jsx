@@ -17,6 +17,9 @@ function LoginPage() {
   const [nextPage, setNextPage] = useState('');
   const [empFullname, setEmpFullname] = useState(''); // State สำหรับเก็บชื่อเต็มของพนักงาน
   const [showPassword, setShowPassword] = useState(false);
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   const router = useRouter();
 
@@ -27,11 +30,15 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+  
+    if (!username || !password) {
+      setErrorMessage('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน');
+      setShowErrorPopup(true);
+      return;
+    }
+  
     setLoading(true);
-  
     setButtonColor('bg-gray-400');
-  
-    console.log('Login attempt:', { username, password });
   
     try {
       const res = await fetch('/api/emp/login', {
@@ -44,18 +51,27 @@ function LoginPage() {
       console.log('Login response:', data);
   
       if (res.ok) {
-        setEmpFullname(data.emp_Fullname); // เก็บชื่อเต็มจาก response ของ API
+        setEmpFullname(data.emp_Fullname);
         if (data.emp_Roll === 'REC') {
           setNextPage('/recruitment');
-          setShowPopup(true); // แสดง Popup
-        } else if (data.emp_Roll === 'PRO') setNextPage('/project');
-        else if (data.emp_Roll === 'CEO') setNextPage('/ceo');
-        else alert('Role not recognized');
+          setShowPopup(true);
+        } else if (data.emp_Roll === 'PRO') {
+          setNextPage('/project');
+          setShowPopup(true);
+        } else if (data.emp_Roll === 'CEO') {
+          setNextPage('/ceo');
+          setShowPopup(true);
+        } else {
+          setErrorMessage('สิทธิ์การเข้าถึงไม่ถูกต้อง');
+          setShowErrorPopup(true);
+        }
       } else {
-        alert(data.message || 'Login failed');
+        setErrorMessage(data.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+        setShowErrorPopup(true);
       }
     } catch (err) {
-      alert('Server error');
+      setErrorMessage('เกิดข้อผิดพลาดของระบบ กรุณาลองใหม่ภายหลัง');
+      setShowErrorPopup(true);
       console.error(err);
     } finally {
       setTimeout(() => {
@@ -64,6 +80,7 @@ function LoginPage() {
       }, 10000);
     }
   };
+  
 
   const closePopup = () => {
     setShowPopup(false); // ปิด popup เมื่อคลิก "ตกลง"
@@ -71,6 +88,11 @@ function LoginPage() {
       router.push(nextPage); // ไปหน้าถัดไปหลังจากปิด Popup
     }
   };
+
+  const closeErrorPopup = () => {
+    setShowErrorPopup(false);
+  };
+  
 
   return (
     <Container>
@@ -147,6 +169,25 @@ function LoginPage() {
           </div>
         </div>
       )}
+
+      {/* Popup แสดงข้อผิดพลาด */}
+      {showErrorPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="w-96 bg-white p-8 rounded-xl shadow-lg animate__animated animate__shakeX">
+            <h3 className="text-center text-2xl font-bold text-red-700 mb-2">เกิดข้อผิดพลาด</h3>
+            <p className="text-center text-red-600">{errorMessage}</p>
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={closeErrorPopup}
+                className="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all"
+              >
+                ปิด
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </Container>
   );
 }
