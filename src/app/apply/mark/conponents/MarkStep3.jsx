@@ -169,7 +169,7 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">
         ประวัติการศึกษา
       </h2>
-      {(formData.regEducation || []).map((edu, idx) => (
+      {(formData.recEducation || []).map((edu, idx) => (
         <div key={idx} className="grid grid-cols-4 gap-4 items-center">
           <input
             type="text"
@@ -211,7 +211,7 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
       <h2 className="text-2xl font-semibold text-gray-700 mt-6 mb-4">
         ประวัติการทำงาน
       </h2>
-      {(formData.regWorkHistory || []).map((work, idx) => (
+      {(formData.recWorkHistory || []).map((work, idx) => (
         <div key={idx} className="grid grid-cols-4 gap-4 items-center">
           <input
             type="text"
@@ -255,8 +255,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
           เล่าประสบการณ์การทำงาน
         </label>
         <textarea
-          name="regWorkExperience"
-          value={formData.regWorkExperience || ""}
+          name="recWorkExperience"
+          value={formData.recWorkExperience || ""}
           onChange={handleWorkExperienceChange}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           placeholder="เล่าประสบการณ์การทำงานของคุณ"
@@ -276,8 +276,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
             </label>
             <input
               type="text"
-              name="regTel"
-              value={formData.regTel || ""}
+              name="recTel"
+              value={formData.recTel || ""}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="กรอกเบอร์โทรศัพท์"
@@ -289,8 +289,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
             </label>
             <input
               type="email"
-              name="regEmail"
-              value={formData.regEmail || ""}
+              name="recEmail"
+              value={formData.recEmail || ""}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="กรอก Email ของคุณ"
@@ -302,8 +302,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
             </label>
             <input
               type="text"
-              name="regLine"
-              value={formData.regLine || ""}
+              name="recLine"
+              value={formData.recLine || ""}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="กรอก LINE ID"
@@ -315,8 +315,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
             </label>
             <input
               type="text"
-              name="regFacebook"
-              value={formData.regFacebook || ""}
+              name="recFacebook"
+              value={formData.recFacebook || ""}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="กรอก Facebook ของคุณ"
@@ -336,8 +336,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
               จังหวัด
             </label>
             <select
-              name="regProvice"
-              value={formData.regProvice || ""}
+              name="recProvice"
+              value={formData.recProvice || ""}
               onChange={handleProvinceChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
@@ -354,11 +354,11 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
               อำเภอ
             </label>
             <select
-              name="regDistrict"
-              value={formData.regDistrict || ""}
+              name="recDistrict"
+              value={formData.recDistrict || ""}
               onChange={handleDistrictChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              disabled={!formData.regProvice}
+              disabled={!formData.recProvice}
             >
               <option value="">เลือกอำเภอ</option>
               {districtOptions.map((dist) => (
@@ -373,11 +373,11 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
               ตำบล
             </label>
             <select
-              name="regSubDistrict"
-              value={formData.regSubDistrict || ""}
+              name="recSubDistrict"
+              value={formData.recSubDistrict || ""}
               onChange={handleSubDistrictChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              disabled={!formData.regDistrict}
+              disabled={!formData.recDistrict}
             >
               <option value="">เลือกตำบล</option>
               {subDistrictOptions.map((subDist) => (
@@ -393,8 +393,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
             </label>
             <input
               type="text"
-              name="regPostcode"
-              value={formData.regPostcode || ""}
+              name="recPostcode"
+              value={formData.recPostcode || ""}
               readOnly
               className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 shadow-sm focus:outline-none"
               placeholder="รหัสไปรษณีย์จะถูกดึงมาให้โดยอัตโนมัติ"
@@ -406,8 +406,8 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
             </label>
             <input
               type="text"
-              name="regAddrees1"
-              value={formData.regAddrees1 || ""}
+              name="recAddrees1"
+              value={formData.recAddrees1 || ""}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="กรอกที่อยู่"

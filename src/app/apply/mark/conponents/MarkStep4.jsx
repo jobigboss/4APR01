@@ -67,8 +67,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
         </label>
         <div className="space-y-2">
           <select
-            name="regPhysical_Ipairment"
-            value={formData.regPhysical_Ipairment}
+            name="recPhysical_Ipairment"
+            value={formData.recPhysical_Ipairment}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
@@ -84,8 +84,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           {showOtherInput && (
             <input
               type="text"
-              name="regPhysical_Ipairment_other"
-              value={formData.regPhysical_Ipairment_other || ""}
+              name="recPhysical_Ipairment_other"
+              value={formData.recPhysical_Ipairment_other || ""}
               onChange={handleChange}
               placeholder="กรุณาระบุเพิ่มเติม"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -101,8 +101,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
         </label>
         <div className="space-y-2">
           <select
-            name="regCongenital_Dseases"
-            value={formData.regCongenital_Dseases}
+            name="recCongenital_Dseases"
+            value={formData.recCongenital_Dseases}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
@@ -115,8 +115,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           {showCongenitalDiseaseInput && (
             <input
               type="text"
-              name="regCongenital_Dseases_other"
-              value={formData.regCongenital_Dseases_other || ""}
+              name="recCongenital_Dseases_other"
+              value={formData.recCongenital_Dseases_other || ""}
               onChange={handleChange}
               placeholder="กรุณาระบุโรคประจำตัว"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -132,8 +132,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
         </label>
         <div className="space-y-2">
           <select
-            name="regCriminal_Rcord"
-            value={formData.regCriminal_Rcord}
+            name="recCriminal_Rcord"
+            value={formData.recCriminal_Rcord}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
@@ -146,8 +146,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           {showCriminalRecordInput && (
             <input
               type="text"
-              name="regCriminal_Rcord_other"
-              value={formData.regCriminal_Rcord_other || ""}
+              name="recCriminal_Rcord_other"
+              value={formData.recCriminal_Rcord_other || ""}
               onChange={handleChange}
               placeholder="กรุณาระบุประวัติอาชญากรรม"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -163,8 +163,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
         </label>
         <div className="space-y-2">
           <select
-            name="regTattoo"
-            value={formData.regTattoo}
+            name="recTattoo"
+            value={formData.recTattoo}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
@@ -177,8 +177,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           {showTattooInput && (
             <input
               type="text"
-              name="regTattoo_other"
-              value={formData.regTattoo_other || ""}
+              name="recTattoo_other"
+              value={formData.recTattoo_other || ""}
               onChange={handleChange}
               placeholder="กรุณาระบุรอยสัก"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -193,8 +193,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           ท่านมีรถจักรยานยนต์หรือไม่
         </label>
         <select
-          name="regMotorcycle"
-          value={formData.regMotorcycle}
+          name="recMotorcycle"
+          value={formData.recMotorcycle}
           onChange={handleChange}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         >
@@ -211,8 +211,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
             ท่านมีใบอนุญาตขับขี่รถจักรยานยนต์หรือไม่
           </label>
           <select
-            name="regMotorcycleLicense"
-            value={formData.regMotorcycleLicense}
+            name="recMotorcycleLicense"
+            value={formData.recMotorcycleLicense}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
@@ -229,8 +229,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           ท่านมีรถยนต์หรือไม่
         </label>
         <select
-          name="regCar"
-          value={formData.regCar}
+          name="recCar"
+          value={formData.recCar}
           onChange={handleChange}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         >
@@ -246,8 +246,8 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
             ท่านมีใบอนุญาตขับขี่รถยนต์หรือไม่
           </label>
           <select
-            name="regCarLicense"
-            value={formData.regCarLicense}
+            name="recCarLicense"
+            value={formData.recCarLicense}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >

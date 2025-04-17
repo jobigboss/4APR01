@@ -37,7 +37,7 @@ function MarkStep5({ formData, onSubmit, onPrev }) {
 
       <div className="space-y-4">
         <p><strong>ตำแหน่งงานที่สมัคร :</strong> {selectedPositionName}</p>
-        <p><strong>ชื่อ-สกุล :</strong> {formData.regFrish_Name_TH} {formData.regLast_Name_TH}</p>
+        <p><strong>ชื่อ-สกุล :</strong> {formData.regFirst_Name_TH} {formData.regLast_Name_TH}</p>
         <p><strong>ชื่อเล่น :</strong> {formData.regNick_Name}</p>
         <p><strong>เบอร์โทร :</strong> {formData.regTel}</p>
       </div>

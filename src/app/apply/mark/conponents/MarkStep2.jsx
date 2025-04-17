@@ -62,8 +62,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
         <label className="block text-gray-700 font-medium mb-2">เลขบัตรประชาชน</label>
         <input 
           type="text" 
-          name="regID_Crad" 
-          value={formData.regID_Crad || ''}
+          name="recID_Card" 
+          value={formData.recID_Card || ''}
           onChange={handleChange}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           placeholder="กรอกเลขบัตรประชาชน"
@@ -73,8 +73,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
       <div>
         <label className="block text-gray-700 font-medium mb-2">คำนำหน้า</label>
         <select
-          name="regPrefix"
-          value={formData.regPrefix || ''}
+          name="recPrefix"
+          value={formData.recPrefix || ''}
           onChange={handleSelectChange('regPrefix')}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         >
@@ -90,8 +90,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">ชื่อ (ภาษาไทย)</label>
           <input 
             type="text" 
-            name="regFrish_Name_TH" 
-            value={formData.regFrish_Name_TH || ''}
+            name="recFirst_Name_TH" 
+            value={formData.recFirst_Name_TH || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรอกชื่อภาษาไทย"
@@ -102,8 +102,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">นามสกุล (ภาษาไทย)</label>
           <input 
             type="text" 
-            name="regLast_Name_TH" 
-            value={formData.regLast_Name_TH || ''}
+            name="recLast_Name_TH" 
+            value={formData.recLast_Name_TH || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรอกนามสกุลภาษาไทย"
@@ -116,8 +116,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">Frish Name (ภาษาอังกฤษ)</label>
           <input 
             type="text" 
-            name="regFrish_Name_EN" 
-            value={formData.regFrish_Name_EN || ''}
+            name="recFirst_Name_EN" 
+            value={formData.recFirst_Name_EN || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรอกชื่อภาษาอังกฤษ"
@@ -128,8 +128,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">Last Name (ภาษาอังกฤษ)</label>
           <input 
             type="text" 
-            name="regLast_Name_EN" 
-            value={formData.regLast_Name_EN || ''}
+            name="recLast_Name_EN" 
+            value={formData.recLast_Name_EN || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรอกนามสกุลภาษาอังกฤษ"
@@ -141,8 +141,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
         <label className="block text-gray-700 font-medium mb-2">ชื่อเล่น (Nick Name)</label>
         <input 
           type="text" 
-          name="regNick_Name" 
-          value={formData.regNick_Name || ''}
+          name="recNick_Name" 
+          value={formData.recNick_Name || ''}
           onChange={handleChange}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           placeholder="กรอกชื่อเล่น (Nick Name)"
@@ -153,7 +153,7 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
         <div className="w-1/3">
           <label className="block text-gray-700 font-medium mb-2">วันเกิด</label>
           <DatePicker
-            value={formData.regDate_of_Birth ? dayjs(formData.regDate_of_Birth) : null}
+            value={formData.recDate_of_Birth ? dayjs(formData.recDate_of_Birth) : null}
             onChange={handleDateChange}
             maxDate={dayjs("2010-12-31")}
             className="w-full h-12 px-4 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -164,8 +164,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">อายุ</label>
           <input
             type="number"
-            name="regAge"
-            value={formData.regAge || ''}
+            name="recAge"
+            value={formData.recAge || ''}
             onChange={handleChange}
             className="appearance-none w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="อายุ"
@@ -175,15 +175,15 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
         <div className="w-1/3">
           <label className="block text-gray-700 font-medium mb-2">เพศ (Gender)</label>
           <select
-            name="regGender"
-            value={formData.regGender || ''}
+            name="recGender"
+            value={formData.recGender || ''}
             onChange={handleSelectChange('regGender')}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="">กรุณาระบุเพศ</option>
             <option value="ชาย">เพศชาย</option>
             <option value="หญิง">เพศหญิง</option>
-            <option value="LGPTQ+">LGPTQ+</option>
+            <option value="LGPTQA+">LGPTQA+</option>
           </select>
         </div>
       </div>
@@ -193,8 +193,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">น้ำหนัก</label>
           <input
             type="number"
-            name="regWeight"
-            value={formData.regWeight || ''}
+            name="recWeight"
+            value={formData.recWeight || ''}
             onChange={handleChange}
             className="appearance-none w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="น้ำหนัก"
@@ -205,8 +205,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">ส่วนสูง</label>
           <input
             type="number"
-            name="regHeight"
-            value={formData.regHeight || ''}
+            name="recHeight"
+            value={formData.recHeight || ''}
             onChange={handleChange}
             className="appearance-none w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="ส่วนสูง"
@@ -219,8 +219,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">เชื้อชาติ</label>
           <input
             type="text"
-            name="regRace"
-            value={formData.regRace || ''}
+            name="recRace"
+            value={formData.recRace || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรุณาระบุเชื้อชาติ"
@@ -231,8 +231,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">สัญชาติ</label>
           <input
             type="text"
-            name="regNationality"
-            value={formData.regNationality || ''}
+            name="recNationality"
+            value={formData.recNationality || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรุณาระบุสัญชาติ"
@@ -243,8 +243,8 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <label className="block text-gray-700 font-medium mb-2">ศาสนา</label>
           <input
             type="text"
-            name="regReligion"
-            value={formData.regReligion || ''}
+            name="recReligion"
+            value={formData.recReligion || ''}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="กรุณาระบุศาสนา"
