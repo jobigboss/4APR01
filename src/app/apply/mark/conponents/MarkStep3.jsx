@@ -41,24 +41,24 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
     const newEdu = { school: "", degree: "", year: "" };
     setFormData({
       ...formData,
-      regEducation: [...(formData.regEducation || []), newEdu],
+      recEducation: [...(formData.recEducation || []), newEdu],
     });
   };
 
   const handleRemoveEducation = (index) => {
-    const updatedEducation = (formData.regEducation || []).filter(
+    const updatedEducation = (formData.recEducation || []).filter(
       (_, idx) => idx !== index
     );
     setFormData({
       ...formData,
-      regEducation: updatedEducation,
+      recEducation: updatedEducation,
     });
   };
 
   const handleEduChange = (index, field, value) => {
-    const updated = [...(formData.regEducation || [])];
+    const updated = [...(formData.recEducation || [])];
     updated[index][field] = value;
-    setFormData({ ...formData, regEducation: updated });
+    setFormData({ ...formData, recEducation: updated });
   };
 
   // ----- Work History Section Handlers -----
@@ -66,30 +66,30 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
     const newWork = { company: "", position: "", years: "" };
     setFormData({
       ...formData,
-      regWorkHistory: [...(formData.regWorkHistory || []), newWork],
+      recWorkHistory: [...(formData.recWorkHistory || []), newWork],
     });
   };
 
   const handleRemoveWork = (index) => {
-    const updatedWork = (formData.regWorkHistory || []).filter(
+    const updatedWork = (formData.recWorkHistory || []).filter(
       (_, idx) => idx !== index
     );
     setFormData({
       ...formData,
-      regWorkHistory: updatedWork,
+      recWorkHistory: updatedWork,
     });
   };
 
   const handleWorkChange = (index, field, value) => {
-    const updated = [...(formData.regWorkHistory || [])];
+    const updated = [...(formData.recWorkHistory || [])];
     updated[index][field] = value;
-    setFormData({ ...formData, regWorkHistory: updated });
+    setFormData({ ...formData, recWorkHistory: updated });
   };
 
   const handleWorkExperienceChange = (e) => {
     setFormData({
       ...formData,
-      regWorkExperience: e.target.value,
+      recWorkExperience: e.target.value,
     });
   };
 
@@ -108,10 +108,10 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
     const province = e.target.value;
     setFormData({
       ...formData,
-      regProvice: province,
-      regDistrict: "",
-      regSubDistrict: "",
-      regPostcode: ""
+      recProvice: province,
+      recDistrict: "",
+      recSubDistrict: "",
+      recPostcode: ""
     });
   };
 
@@ -119,17 +119,17 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
     const district = e.target.value;
     setFormData({
       ...formData,
-      regDistrict: district,
-      regSubDistrict: "",
-      regPostcode: ""
+      recDistrict: district,
+      recSubDistrict: "",
+      recPostcode: ""
     });
   };
 
   const handleSubDistrictChange = (e) => {
     const subDistrict = e.target.value;
     let postcode = "";
-    const province = formData.regProvice;
-    const district = formData.regDistrict;
+    const province = formData.recProvice;
+    const district = formData.recDistrict;
     if (
       addressData[province] &&
       addressData[province].districts[district] &&
@@ -139,22 +139,22 @@ function MarkStep3({ onNext, onPrev, formData, setFormData }) {
     }
     setFormData({
       ...formData,
-      regSubDistrict: subDistrict,
-      regPostcode: postcode
+      recSubDistrict: subDistrict,
+      recPostcode: postcode
     });
   };
 
   const provinceOptions = Object.keys(addressData).sort((a,b)=>a.localeCompare(b,'th'));
-  const districtOptions = formData.regProvice
-  ? Object.keys(addressData[formData.regProvice]?.districts || {}).sort((a, b) =>
+  const districtOptions = formData.recProvice
+  ? Object.keys(addressData[formData.recProvice]?.districts || {}).sort((a, b) =>
       a.localeCompare(b, 'th')
     )
   : [];
 
   const subDistrictOptions =
-  formData.regProvice && formData.regDistrict
+  formData.recProvice && formData.recDistrict
     ? Object.keys(
-        addressData[formData.regProvice]?.districts?.[formData.regDistrict]?.subDistricts || {}
+        addressData[formData.recProvice]?.districts?.[formData.recDistrict]?.subDistricts || {}
       ).sort((a, b) => a.localeCompare(b, 'th'))
     : [];
   

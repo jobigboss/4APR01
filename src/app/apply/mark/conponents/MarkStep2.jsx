@@ -20,7 +20,7 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
     console.log("Changed Date:", formattedDate);
     setFormData({
       ...formData,
-      regDate_of_Birth: formattedDate,
+      recDate_of_Birth: formattedDate,
     });
   };
 
@@ -75,7 +75,7 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
         <select
           name="recPrefix"
           value={formData.recPrefix || ''}
-          onChange={handleSelectChange('regPrefix')}
+          onChange={handleSelectChange('recPrefix')}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         >
           <option value="">เลือกคำนำหน้า</option>
@@ -177,7 +177,7 @@ function MarkStep2({ onNext, onPrev, formData, setFormData }) {
           <select
             name="recGender"
             value={formData.recGender || ''}
-            onChange={handleSelectChange('regGender')}
+            onChange={handleSelectChange('recGender')}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="">กรุณาระบุเพศ</option>

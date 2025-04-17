@@ -5,6 +5,8 @@ import { RiCameraAiLine } from "react-icons/ri";
 function MarkStep4({ onNext, onPrev, formData, setFormData }) {
     const [capturedImage, setCapturedImage] = useState(null);
     const fileInputRef = useRef(null); // Create ref for file input
+    const [imageError, setImageError] = useState(""); // Initialize the state for imageError
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,18 +21,28 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
   };
 
   const showOtherInput =
-    formData.regPhysical_Ipairment === "อื่น ๆ" ||
-    formData.regPhysical_Ipairment === "อื่นๆ";
+    formData.recPhysical_Ipairment === "อื่น ๆ" ||
+    formData.recPhysical_Ipairment === "อื่นๆ";
 
-  const showCongenitalDiseaseInput = formData.regCongenital_Dseases === "มี";
+  const showCongenitalDiseaseInput = formData.recCongenital_Dseases === "มี";
 
-  const showCriminalRecordInput = formData.regCriminal_Rcord === "มี";
+  const showCriminalRecordInput = formData.recCriminal_Rcord === "มี";
 
-  const showTattooInput = formData.regTattoo === "มี";
+  const showTattooInput = formData.recTattoo === "มี";
   
   const handleCapture = (e) => {
     const file = e.target.files[0];
+    
     if (file) {
+      // Check file size (limit to 3MB)
+      if (file.size > 3 * 1024 * 1024) {
+        setImageError("ขนาดไฟล์ต้องไม่เกิน 3MB");
+        setCapturedImage(null); // Reset captured image
+        return;
+      }
+
+      setImageError(""); // Clear any previous error
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setCapturedImage(reader.result);
@@ -47,10 +59,11 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
     if (capturedImage) {
       setFormData((prev) => ({
         ...prev,
-        regCapturedImage: capturedImage, // หรือเปลี่ยนชื่อ key ตามที่ต้องการ
+        recCapturedImage: capturedImage, // หรือเปลี่ยนชื่อ key ตามที่ต้องการ
       }));
     }
   }, [capturedImage]);
+
   
  
 
@@ -257,50 +270,50 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           </select>
         </div>
 
-            {/* ถ่ายภาพยืนยันตัวตน */}
-            <div className="flex flex-col items-center">
-                <label className="block text-gray-700 font-medium mb-2">
-                ถ่ายภาพยืนยันตัวตน
-                </label>
-                <div className="flex items-center space-x-4">
-                {/* ปุ่มถ่ายภาพ */}
-                {!capturedImage ? (
-                <button
-                    type="button"
-                    onClick={handleCameraClick}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 flex items-center"
-                >
-                    <RiCameraAiLine className="mr-2" />
-                    ถ่ายภาพ
-                </button>
-                ) : (
-                <div className="relative">
-                    <img
-                    src={capturedImage}
-                    alt="Captured"
-                    className="w-40 h-40 object-cover rounded-lg shadow"
-                    />
-                    <button
-                    type="button"
-                    onClick={() => setCapturedImage(null)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600"
-                    >
-                    ×
-                    </button>
-                </div>
-                )}
+           {/* ถ่ายภาพยืนยันตัวตน */}
+      <div className="flex flex-col items-center">
+        <label className="block text-gray-700 font-medium mb-2">
+          ถ่ายภาพยืนยันตัวตน
+        </label>
+        <div className="flex items-center space-x-4">
+          {/* ปุ่มถ่ายภาพ */}
+          {!capturedImage ? (
+            <button
+              type="button"
+              onClick={handleCameraClick}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 flex items-center"
+            >
+              <RiCameraAiLine className="mr-2" />
+              ถ่ายภาพ
+            </button>
+          ) : (
+            <div className="relative">
+              <img
+                src={capturedImage}
+                alt="Captured"
+                className="w-40 h-40 object-cover rounded-lg shadow"
+              />
+              <button
+                type="button"
+                onClick={() => setCapturedImage(null)}
+                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600"
+              >
+                ×
+              </button>
+            </div>
+          )}
 
-                {/* input ซ่อน */}
-                <input
-                type="file"
-                accept="image/*"
-                capture="user"
-                onChange={handleCapture}
-                ref={fileInputRef}
-                className="hidden"
-                />
-            </div>                                          
+          {/* input ซ่อน */}
+          <input
+            type="file"
+            accept="image/*"
+            capture="user"
+            onChange={handleCapture}
+            ref={fileInputRef}
+            className="hidden"
+          />
         </div>
+      </div>
 
       {/* ปุ่มนำทาง */}
       <div className="flex justify-between mt-6">
