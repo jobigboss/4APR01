@@ -1,58 +1,113 @@
 "use client"
 import React, { useState } from 'react';
+import Card from '../conponents/Crad';
 
 function MarkStep5({ formData, onSubmit, onPrev }) {
   const [agreed, setAgreed] = useState(false); // การยอมรับเงื่อนไข
   const [fileInputRef, setFileInputRef] = useState(null); // เก็บที่อยู่ไฟล์
   const [generatedID, setGeneratedID] = useState(null);
-
-  // ฟังก์ชันการอัปโหลดไฟล์
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // สถานะการเปิด/ปิด Popup
+  
   const handleSubmit = async () => {
-    if (!agreed) {
-      alert('กรุณายืนยันว่าคุณได้อ่านและยินยอมตามเงื่อนไข');
-      return;
-    }
-  
+    let newID;
     try {
-      const res = await fetch('/api/gen-rec-id');
-  
-      // ตรวจสอบว่า response สถานะโอเคหรือไม่
-      if (!res.ok) {
-        // พยายามดึงข้อความจาก API หรือ JSON หากมี
-        let errorDetails = 'Unknown error';
-        try {
-          // ลองดึงข้อมูลในรูป JSON ถ้าเป็นไปได้
-          const jsonError = await res.json();
-          errorDetails = JSON.stringify(jsonError);
-        } catch (jsonError) {
-          // ถ้าไม่สามารถดึง JSON ได้ ลองดึงเป็นข้อความธรรมดา
-          try {
-            errorDetails = await res.text();
-          } catch (textError) {
-            errorDetails = 'Unable to extract error details from response';
-          }
+      // ✅ STEP 1: ขอ newID จาก API
+      try {
+        const idRes = await fetch('/api/gen-rec-id-mark');
+
+        if (!idRes.ok) {
+          throw new Error(`API Error: ${idRes.status} ${idRes.statusText}`);
         }
-  
-        console.error('API error:', errorDetails);  // แสดงข้อความ error ของ API
-        throw new Error('Error generating ID');
+
+        const resJson = await idRes.json();
+        newID = resJson.newID;
+
+        console.log('✅ newID ได้รับ:', newID);
+
+      } catch (err) {
+        // จัดการข้อผิดพลาดหากไม่สามารถเรียก API ได้
+        console.error('เกิดข้อผิดพลาดในการขอ newID:', err);
+        alert('ไม่สามารถขอ newID ได้ กรุณาลองใหม่อีกครั้ง');
+      }   
+
+      // ✅ STEP 2: อัปโหลดรูปภาพ ไปเก็บ /public/img_rec โดยค่า จะส่งมาจาก formData.capturedImage
+      // STEP 2: อัปโหลดรูปภาพ
+      let savedImageUrl = '';
+      console.log(formData.recCapturedImage);
+      
+      // ตรวจสอบว่า formData.recCapturedImage มีค่า
+      if (formData.recCapturedImage) {
+        const imageName = `${newID}.png`; // สร้างชื่อไฟล์จาก newID
+        try {
+          // ถ้า base64 มี prefix 'data:image/png;base64,' ให้ลบออก
+          const base64Image = formData.recCapturedImage.split(',')[1]; // ลบ header
+      
+          // อัปโหลดภาพไปยัง API
+          const imageRes = await fetch('/api/uploadImg', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              base64Image: base64Image, // ส่งเฉพาะ base64 data
+              imageName: imageName,
+            }),
+          });
+      
+          const imageData = await imageRes.json();
+          if (!imageData.success) throw new Error('Failed to save image');
+          savedImageUrl = imageData.imageUrl; // เก็บ URL ของภาพที่อัปโหลด
+          console.log('📸 Image saved at:', savedImageUrl);
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+      } else {
+        console.log('No captured image found.');
       }
+      
+      
+      // ตรวจสอบค่าของ savedImageUrl และ formData.fileInputRef
+      const fileInputRefValue = savedImageUrl || formData.fileInputRef || ''; // ใช้ค่าจาก savedImageUrl หากมี หรือ formData.fileInputRef ถ้าไม่มีก็จะใช้ค่าว่าง
+      
+      console.log('File Input Reference Value:', fileInputRefValue);     
   
-      // ตรวจสอบการตอบกลับจาก API ว่ามีข้อมูลใหม่ที่สร้างขึ้นหรือไม่
-      const data = await res.json();
-      if (!data || !data.newID) {
-        console.error('Invalid response structure:', data);
-        throw new Error('No new ID returned from the server');
-      }
-  
-      const newID = data.newID;
-      setGeneratedID(newID); // เก็บ ID ที่สร้างขึ้นใหม่
-      console.log('Generated ID:', newID);
-  
+
+        // ตรวจสอบว่า recEducation และ recWorkHistory เป็น array หรือไม่
+        const recEducationArray = Array.isArray(formData.recEducation)
+          ? formData.recEducation  // ถ้าเป็น array แล้วไม่ต้องแปลง
+          : JSON.parse(formData.recEducation);  // ถ้าเป็น string ให้แปลงเป็น array
+
+        const recWorkHistoryArray = Array.isArray(formData.recWorkHistory)
+          ? formData.recWorkHistory  // ถ้าเป็น array แล้วไม่ต้องแปลง
+          : JSON.parse(formData.recWorkHistory);  // ถ้าเป็น string ให้แปลงเป็น array
+
+        // ตรวจสอบว่า recEducationArray และ recWorkHistoryArray เป็น Array
+        if (!Array.isArray(recEducationArray)) {
+          console.error("recEducationArray is not an array");
+          return;
+        }
+
+        if (!Array.isArray(recWorkHistoryArray)) {
+          console.error("recWorkHistoryArray is not an array");
+          return;
+        } 
+
+          // แปลง Array เป็น String
+          const recEducationString = recEducationArray
+            .map(item => `${item.school} ${item.degree} ${item.year}`)
+            .join("\n");
+
+          const recWorkHistoryString = recWorkHistoryArray
+            .map(item => `${item.company} ${item.position} ${item.years}`)
+            .join("\n");
+
+          console.log(recEducationString);
+          console.log(recWorkHistoryString);
+
+      // ✅ STEP 3: สร้างข้อมูลใบสมัคร และส่งไป MongoDB
       const applicationData = {
-        ID_Rec: newID, // ใช้ newID ทันทีจาก response
+        ID_Rec: newID,
         rec_Date: new Date(),
         ID_Emp: "SF2504001",
-        ID_Position: formData.ID_Position,
+        ID_Position: formData.selectedPosition || "",
         recID_Card: formData.recID_Card,
         recPrefix: formData.recPrefix,
         recFirst_Name_TH: formData.recFirst_Name_TH,
@@ -80,9 +135,9 @@ function MarkStep5({ formData, onSubmit, onPrev }) {
         recMotorcycleLicense: formData.recMotorcycleLicense,
         recCar: formData.recCar,
         recCarLicense: formData.recCarLicense,
-        fileInputRef: fileInputRef,
-        recEducation: formData.recEducation,
-        recWorkHistory: formData.recWorkHistory,
+        fileInputRef: fileInputRefValue || '', // ป้องกัน undefined
+        recEducation: recEducationString,
+        recWorkHistory: recWorkHistoryString,
         recWorkExperience: formData.recWorkExperience,
         recTel: formData.recTel,
         recEmail: formData.recEmail,
@@ -102,14 +157,32 @@ function MarkStep5({ formData, onSubmit, onPrev }) {
         proSignature: null,
         ID_Payroll: null,
       };
-  
-      // ส่งข้อมูลไปยังขั้นตอนต่อไป
-      onSubmit(applicationData);
-  
+
+      const saveRes = await fetch('/api/recRegister', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(applicationData),
+      });
+
+      const saveResult = await saveRes.json();
+      if (saveResult.success) {
+        setIsPopupOpen(true);  // เปิด Popup
+        // รีเฟรชหน้าหลังจากแสดง Popup
+        setTimeout(() => {
+          window.location.reload();
+        }, 10000);  // รอ 10 วินาทีเพื่อให้เห็น Popup ก่อนหน้าโหลดใหม่
+      } else {
+        alert('ส่งข้อมูลไม่สำเร็จ');
+      }
     } catch (err) {
-      console.error('Error generating ID:', err);
-      alert('ไม่สามารถสร้าง ID_Rec ได้ กรุณาลองใหม่');
+      console.error('เกิดข้อผิดพลาด:', err);
+    } finally {
+      setIsLoading(false); // หยุดการโหลดเมื่อเสร็จสิ้น
     }
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false); // ปิด Popup
   };
   
   return (
@@ -167,6 +240,15 @@ function MarkStep5({ formData, onSubmit, onPrev }) {
           ส่งใบสมัคร
         </button>
       </div>
+
+      {/* Popup */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
+          <Card />
+          <button onClick={closePopup} className="absolute top-2 right-2 text-white bg-red-500 p-2 rounded-full">X</button>
+        </div>
+      )}
+      
     </div>
   );
 }

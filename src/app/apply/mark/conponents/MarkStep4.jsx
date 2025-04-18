@@ -32,7 +32,7 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
   
   const handleCapture = (e) => {
     const file = e.target.files[0];
-    
+  
     if (file) {
       // Check file size (limit to 3MB)
       if (file.size > 3 * 1024 * 1024) {
@@ -40,33 +40,33 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
         setCapturedImage(null); // Reset captured image
         return;
       }
-
+  
       setImageError(""); // Clear any previous error
-
+  
       const reader = new FileReader();
       reader.onloadend = () => {
-        setCapturedImage(reader.result);
+        const imageData = reader.result;
+        setCapturedImage(imageData);
       };
       reader.readAsDataURL(file);
     }
   };
-
+  
   const handleCameraClick = () => {
     fileInputRef.current.click(); // เรียกใช้ input file เมื่อกดปุ่มถ่ายภาพ
   };
-
+  
+  // useEffect สำหรับเก็บค่าภาพเมื่อ capturedImage มีการเปลี่ยนแปลง
   useEffect(() => {
     if (capturedImage) {
       setFormData((prev) => ({
         ...prev,
         recCapturedImage: capturedImage, // หรือเปลี่ยนชื่อ key ตามที่ต้องการ
       }));
+      console.log("Form Data after capturedImage:", formData); // ตรวจสอบค่าของ formData
     }
   }, [capturedImage]);
-
   
- 
-
   return (
     <div className="w-full max-w-lg bg-white p-8 rounded-xl shadow-lg space-y-6 mx-auto">
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">
@@ -270,50 +270,55 @@ function MarkStep4({ onNext, onPrev, formData, setFormData }) {
           </select>
         </div>
 
-           {/* ถ่ายภาพยืนยันตัวตน */}
-      <div className="flex flex-col items-center">
-        <label className="block text-gray-700 font-medium mb-2">
-          ถ่ายภาพยืนยันตัวตน
-        </label>
-        <div className="flex items-center space-x-4">
-          {/* ปุ่มถ่ายภาพ */}
-          {!capturedImage ? (
-            <button
-              type="button"
-              onClick={handleCameraClick}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 flex items-center"
-            >
-              <RiCameraAiLine className="mr-2" />
-              ถ่ายภาพ
-            </button>
-          ) : (
-            <div className="relative">
-              <img
-                src={capturedImage}
-                alt="Captured"
-                className="w-40 h-40 object-cover rounded-lg shadow"
-              />
-              <button
-                type="button"
-                onClick={() => setCapturedImage(null)}
-                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600"
-              >
-                ×
-              </button>
-            </div>
-          )}
+     {/* ถ่ายภาพยืนยันตัวตน */}
+     <div className="flex flex-col items-center">
+                <label className="block text-gray-700 font-medium mb-2">
+                    ถ่ายภาพยืนยันตัวตน
+                </label>
+                <div className="flex items-center space-x-4">
+                    {/* Show captured image or capture button */}
+                    {formData.recCapturedImage ? (
+                        <div className="relative">
+                            <img
+                                src={formData.recCapturedImage}
+                                alt="Captured"
+                                className="w-40 h-40 object-cover rounded-lg shadow"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        recCapturedImage: null, // Clear the captured image
+                                    }));
+                                }}
+                                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600"
+                            >
+                                ×
+                            </button>
+                        </div>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={handleCameraClick}
+                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 flex items-center"
+                        >
+                            <RiCameraAiLine className="mr-2" />
+                            ถ่ายภาพ
+                        </button>
+                    )}
 
-          {/* input ซ่อน */}
-          <input
-            type="file"
-            accept="image/*"
-            capture="user"
-            onChange={handleCapture}
-            ref={fileInputRef}
-            className="hidden"
-          />
-        </div>
-      </div>
+                    {/* Hidden file input */}
+                    <input
+                        type="file"
+                        accept="image/*"
+                        capture="user"
+                        onChange={handleCapture}
+                        ref={fileInputRef}
+                        className="hidden"
+                    />
+                </div>
+            </div>
 
       {/* ปุ่มนำทาง */}
       <div className="flex justify-between mt-6">
